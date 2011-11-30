@@ -15,12 +15,16 @@
                         <label>
                             {{ field }} <span>{{ field.label }}</span>
                         </label>
-                        <span class="help-block">
-                            {{ field.help_text }}
-                        </span>
+
                         {% for error in field.errors %}
                             <span class="help-inline">{{ error }}</span>
                         {% endfor %}
+
+                        {% if field.help_text %}
+                        <span class="help-block">
+                            {{ field.help_text }}
+                        </span>
+                        {% endif %}
                     </div>
                 </li>
             </ul>
@@ -28,14 +32,17 @@
             {{ field.label_tag }}
             <div class="input">
                 {{ field }}
+
+                {% for error in field.errors %}
+                    <span class="help-inline">{{ error }}</span>
+                {% endfor %}
+
+                {% if field.help_text %}
                 <span class="help-block">
-                {{ field.help_text }}
+                    {{ field.help_text }}
                 </span>
-                {% if field.errors %}
-                    {% for error in field.errors %}
-                        <span class="help-inline">{{ error }}</span>
-                    {% endfor %}
                 {% endif %}
+
             </div>
         {% endif %}
     </div>
