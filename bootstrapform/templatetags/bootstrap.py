@@ -11,5 +11,11 @@ def bootstrap(form):
     return template.render(context)
 
 @register.filter
+def bootstrapfield(field):
+    template = get_template("bootstrapform/field.html")
+    context = Context({'field': field})
+    return template.render(context)
+
+@register.filter
 def is_checkbox(field):
     return field.field.widget.__class__.__name__.lower() == "checkboxinput"
