@@ -7,55 +7,8 @@
 {% endfor %}
 
 {% for field in form.visible_fields %}
-    <div class="clearfix{% if field.errors %} error{% endif %}">
-        {% if field|is_checkbox %}
-            <ul class="inputs-list">
-                <li>
-                    <div class="input">
-                        <label>
-                            {{ field }} <span>{{ field.label }}</span>
-                        </label>
-
-                        {% for error in field.errors %}
-                            <span class="help-inline">{{ error }}</span>
-                        {% endfor %}
-
-                        {% if field.help_text %}
-                        <span class="help-block">
-                            {{ field.help_text }}
-                        </span>
-                        {% endif %}
-                    </div>
-                </li>
-            </ul>
-        {% else %}
-            {{ field.label_tag }}
-            <div class="input">
-				{% if field|is_radio %}
-					<ul class="inputs-list">
-						{% for radio in field %}
-						<li>
-							<label>
-								{{ radio.tag }} <span>{{ radio.choice_label }}</span>
-							</label>
-						</li>
-						{% endfor %}
-					</ul>
-				{% else %}
-					{{ field }}
-				{% endif %}
-                {% for error in field.errors %}
-                    <span class="help-inline">{{ error }}</span>
-                {% endfor %}
-
-                {% if field.help_text %}
-                <span class="help-block">
-                    {{ field.help_text }}
-                </span>
-                {% endif %}
-
-            </div>
-        {% endif %}
-    </div>
+	<div class="clearfix{% if field.errors %} error{% endif %}">
+	{{ field|bootstrapfield }}
+	</div>
 {% endfor %}
 

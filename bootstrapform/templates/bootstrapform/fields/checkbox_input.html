@@ -1,0 +1,15 @@
+<ul class="inputs-list">
+    <li>
+        <div class="input">
+            <label>
+                {{ field }} <span>{{ field.label }}</span>
+            </label>
+            <span class="help-block">
+                {{ field.help_text }}
+            </span>
+            {% for error in field.errors %}
+                <span class="help-inline">{{ error }}</span>
+            {% endfor %}
+        </div>
+    </li>
+</ul>

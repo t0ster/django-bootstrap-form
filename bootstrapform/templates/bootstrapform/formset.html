@@ -1,0 +1,25 @@
+{% load bootstrap %}
+
+<div class="formset">
+	{{ formset.management_form }}
+	<fieldset>
+		<legend>Phone Numbers</legend>
+		{% for form in formset %}
+		<div class="formset-form">
+			{{ form|bootstrap }}
+			<div class="clearfix input form-controls">
+				{% if formset.can_order %}
+				<button class="form-control-move-up btn">Move up</button>
+				<button class="form-control-move-down btn">Move down</button>
+				{% endif %}
+				{% if formset.can_delete %}
+				<button class="form-control-remove btn danger">Remove</button>
+				{% endif %}
+			</div>
+		</div>
+		{% endfor %}
+		<div class="clearfix input formset-controls">
+			<button class="formset-control-add btn">Add</button>
+		</div>
+	</fieldset>
+</div>
