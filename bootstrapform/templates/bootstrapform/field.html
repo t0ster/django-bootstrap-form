@@ -1,0 +1,34 @@
+{% load bootstrap %}
+
+<div class="clearfix{% if field.errors %} error{% endif %}">
+{% if field|is_checkbox %}
+    <ul class="inputs-list">
+        <li>
+            <div class="input">
+                <label>
+                    {{ field }} <span>{{ field.label }}</span>
+                </label>
+                <span class="help-block">
+                    {{ field.help_text }}
+                </span>
+                {% for error in field.errors %}
+                    <span class="help-inline">{{ error }}</span>
+                {% endfor %}
+            </div>
+        </li>
+    </ul>
+{% else %}
+    {{ field.label_tag }}
+    <div class="input">
+        {{ field }}
+        <span class="help-block">
+        {{ field.help_text }}
+        </span>
+        {% if field.errors %}
+            {% for error in field.errors %}
+                <span class="help-inline">{{ error }}</span>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endif %}
+</div>
