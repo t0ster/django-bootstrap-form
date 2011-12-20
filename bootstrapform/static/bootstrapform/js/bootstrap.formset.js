@@ -117,8 +117,19 @@
 			var $this = $(this);
 			var form = $this.parents('.formset-form');
 			var del = form.find('[name$=DELETE]');
-			del.attr('checked', 'checked');
-			form.fadeOut();
+			var button_state = $this.hasClass('active');
+			if (button_state) {
+				$this.button('toggle');
+				$this.button('reset');
+				del.removeAttr('checked');
+				form.find(':input').not($this).removeAttr('disabled');
+			} else {
+				$this.button('toggle');
+				$this.button('toggled');
+				del.attr('checked', 'checked');
+				// form.fadeOut();
+				form.find(':input').not($this).not(del).attr('disabled', 'disabled');
+			}
 			return false;
 		});
 		
