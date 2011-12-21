@@ -1,25 +1,41 @@
 {% load bootstrap %}
-
 <div class="formset">
 	{{ formset.management_form }}
-	<fieldset>
-		<legend>Phone Numbers</legend>
+	<table>
 		{% for form in formset %}
-		<div class="formset-form">
-			{{ form|bootstrap }}
-			<div class="clearfix input form-controls">
-				{% if formset.can_order %}
-				<button class="form-control-move-up btn small" title="move up">⬆</button>
-				<button class="form-control-move-down btn small" title="move down">⬇</button>
-				{% endif %}
-				{% if formset.can_delete %}
-				<button class="form-control-remove btn small danger" title="remove" data-toggled-text="⟲">╳</button>
-				{% endif %}
-			</div>
-		</div>
+		{% if forloop.first %}
+		<thead>
+			<tr>
+				{% for field in form.visible_fields %}
+				<th>
+					{{ field.label|capfirst }}
+				</th>
+				{% endfor %}
+			</tr>
+		</thead>
+		{% endif %}
+		<tbody>
+			<tr class="formset-form">
+				{% for field in form.visible_fields %}
+				<td{% if field.errors%} class="error"{% endif %}>
+					{% if forloop.first %}
+					{% for hidden in form.hidden_fields %}
+					{{ hidden }}
+					{% endfor %}
+					{% endif %}
+					{{ field }}
+				    {% if field.errors %}
+				        {% for error in field.errors %}
+				            <span class="help-inline">{{ error }}</span>
+				        {% endfor %}
+				    {% endif %}
+				</td>
+				{% endfor %}
+			</tr>
+		</tbody>
 		{% endfor %}
-		<div class="clearfix input formset-controls">
-			<button class="formset-control-add btn small" title="add item">+</button>
-		</div>
-	</fieldset>
+	</table>
+	<div class="clearfix input formset-controls">
+		<button class="formset-control-add btn small" title="add item">+</button>
+	</div>
 </div>

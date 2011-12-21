@@ -61,6 +61,28 @@
 			return new_element;
 		};
 		
+		var order_field = function (form) {
+			return form.find('[name$=-ORDER]');
+		};
+		
+		var delete_field = function (form) {
+			return form.find('[name$=-DELETE]');
+		};
+		
+		order_field(context).each(function () {
+			var $this = $(this).hide();
+			var cell = $this.parents('td');
+			var buttons = $('<button class="form-control-move-up btn small" title="move up">⬆</button><button class="form-control-move-down btn small" title="move down">⬇</button>');
+			cell.append(buttons);
+		});
+		
+		delete_field(context).each(function () {
+			var $this = $(this).hide();
+			var cell = $this.parents('td');
+			var button = $('<button class="form-control-remove btn small danger" title="remove" data-toggled-text="⟲">╳</button>');
+			cell.append(button);
+		});
+		
 		var set_add_control_state = function () {
 			context.find('.formset-control-add').each(function () {
 				var $this = $(this);
@@ -77,7 +99,7 @@
 			context.find('.form-control-move-up').each(function () {
 				var $this = $(this);
 				var form = $this.parents('.formset-form');
-				var index = parseInt(form.find('[name$=ORDER]').val());
+				var index = parseInt(order_field(form).val());
 				if (index == 0) {
 					$this.attr('disabled', 'disabled');
 				} else {
@@ -91,7 +113,7 @@
 			context.find('.form-control-move-down').each(function () {
 				var $this = $(this);
 				var form = $this.parents('.formset-form');
-				var index = parseInt(form.find('[name$=ORDER]').val());
+				var index = parseInt(order_field(form).val());
 				if (index >= (total - 1)) {
 					$this.attr('disabled', 'disabled');
 				} else {
@@ -116,7 +138,7 @@
 		context.on('click', '.form-control-remove', function () {
 			var $this = $(this);
 			var form = $this.parents('.formset-form');
-			var del = form.find('[name$=DELETE]');
+			var del = delete_field(form);
 			var button_state = $this.hasClass('active');
 			if (button_state) {
 				$this.button('toggle');
@@ -137,36 +159,28 @@
 		
 		var reorderer = function (offset) {
 			return function () {
-				var reorderforms = function (pivot, position) {
-					var other_forms = [],
-					    ordered_forms = [];
-					forms().each(function () {
-						var form = $(this);
-						if (form[0] != pivot[0]) {
-							var order = form.find('[name$=ORDER]');
-							var index = parseInt(order.val());
-							other_forms[index] = form;
-						}
-					});
-					$.each(other_forms, function (_, other) {
-						if (other) {
-							ordered_forms.push(other);
-						}
-					});
-					ordered_forms.splice(position, 0, pivot);
-					$.each(ordered_forms, function (i, form) {
-						if (form) {
-							form.find('[name$=ORDER]').val(i);
-						}
-					});
-				};
-			
 				var $this = $(this);
 				var form = $this.parents('.formset-form');
+				var tbody = $this.parents('tbody');
 				var formset = $this.parents('.formset');
-				var order = form.find('[name$=ORDER]');
-				var index = parseInt(order.val());
-				reorderforms(form, index + offset);
+				
+				var allforms = $.makeArray(forms());
+				var position = 0;
+				$.each(allforms, function (i) {
+					if (this == form[0]) {
+						position = i;
+					}
+				});
+				
+				allforms.splice(position, 1);
+				allforms.splice(position + offset, 0, form[0]);
+				
+				$.each(allforms, function (i) {
+					order_field($(this)).val(i);
+				});
+				
+				tbody.append(allforms);
+				
 				update_button_states();			
 				return false;
 			};
@@ -175,16 +189,13 @@
 		context.on('click', '.form-control-move-up', reorderer(-1));
 		context.on('click', '.form-control-move-down', reorderer(1));
 		
-		context.find('[name$=DELETE]').parents('.clearfix').hide();
-		context.find('[name$=ORDER]').each(function () {
+		order_field(context).each(function () {
 			var $this = $(this);
 			if ($this.val() == '') {
 				$this.val('0');
 			}
 		});
-		// context.find('[name$=ORDER]').parents('.clearfix').hide();
-		set_add_control_state();
-		set_move_up_control_state();
-		set_move_down_control_state();				
+		
+		update_button_states();
 	});
 })( window.jQuery || window.ender );
