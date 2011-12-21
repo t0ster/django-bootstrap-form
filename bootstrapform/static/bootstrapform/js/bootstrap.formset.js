@@ -121,15 +121,17 @@
 			if (button_state) {
 				$this.button('toggle');
 				$this.button('reset');
+				$this.attr('title', 'remove');
 				del.removeAttr('checked');
-				form.find(':input').not($this).removeAttr('disabled');
+				form.find(':input').removeAttr('disabled');
 			} else {
 				$this.button('toggle');
 				$this.button('toggled');
+				$this.attr('title', 'undo');
 				del.attr('checked', 'checked');
-				// form.fadeOut();
 				form.find(':input').not($this).not(del).attr('disabled', 'disabled');
 			}
+			update_button_states();
 			return false;
 		});
 		

@@ -9,17 +9,17 @@
 			{{ form|bootstrap }}
 			<div class="clearfix input form-controls">
 				{% if formset.can_order %}
-				<button class="form-control-move-up btn small">Move up</button>
-				<button class="form-control-move-down btn small">Move down</button>
+				<button class="form-control-move-up btn small" title="move up">⬆</button>
+				<button class="form-control-move-down btn small" title="move down">⬇</button>
 				{% endif %}
 				{% if formset.can_delete %}
-				<button class="form-control-remove btn small danger" data-toggled-text="Undo">Remove</button>
+				<button class="form-control-remove btn small danger" title="remove" data-toggled-text="⟲">╳</button>
 				{% endif %}
 			</div>
 		</div>
 		{% endfor %}
 		<div class="clearfix input formset-controls">
-			<button class="formset-control-add btn small">Add</button>
+			<button class="formset-control-add btn small" title="add item">+</button>
 		</div>
 	</fieldset>
 </div>
