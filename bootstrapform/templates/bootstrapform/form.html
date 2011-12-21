@@ -7,8 +7,8 @@
 {% endfor %}
 
 {% for field in form.visible_fields %}
-	<div class="clearfix{% if field.errors %} error{% endif %}">
-	{{ field|bootstrapfield }}
-	</div>
+    <div class="clearfix{% if field.errors %} error{% endif %}">
+    {{ field|bootstrapfield }}
+    </div>
 {% endfor %}
 

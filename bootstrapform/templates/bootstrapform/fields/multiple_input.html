@@ -1,14 +1,14 @@
 {{ field.label_tag }}
 <div class="input">
-	<ul class="inputs-list">
-		{% for radio in field %}
-		<li>
-			<label>
-				{{ radio.tag }} <span>{{ radio.choice_label }}</span>
-			</label>
-		</li>
-		{% endfor %}
-	</ul>
+    <ul class="inputs-list">
+        {% for radio in field %}
+        <li>
+            <label>
+                {{ radio.tag }} <span>{{ radio.choice_label }}</span>
+            </label>
+        </li>
+        {% endfor %}
+    </ul>
     <span class="help-block">
     {{ field.help_text }}
     </span>
