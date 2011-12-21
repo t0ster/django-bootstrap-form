@@ -32,11 +32,17 @@
             return context.find('.formset-form');
         };
         
-        var clone = function () {
+        var order_field = function (form) {
+            return form.find('[name$=-ORDER]');
+        };
+        
+        var delete_field = function (form) {
+            return form.find('[name$=-DELETE]');
+        };
+        
+        var clone = function (lastform) {
             var total = TOTAL_FORMS.val();
-            var new_element = context.find(form_id('-'+ (total-1) + '-id')) 
-                                     .parents('.formset-form')
-                                     .clone(true);
+            var new_element = lastform.clone(true);
             new_element.find(':input').each(function () {
                 var input = $(this);
                 var name = input.attr('name');
@@ -55,18 +61,10 @@
                     label.attr('for', for_);
                 }
             });
-            new_element.find('[name$=ORDER]').val(total);
+            order_field(new_element).val(total);
             total++;
             TOTAL_FORMS.val(total);
             return new_element;
-        };
-        
-        var order_field = function (form) {
-            return form.find('[name$=-ORDER]');
-        };
-        
-        var delete_field = function (form) {
-            return form.find('[name$=-DELETE]');
         };
         
         order_field(context).each(function () {
@@ -83,7 +81,9 @@
             cell.append(button);
         });
         
-        context.find('tbody').append($('<tr><td><button class="formset-control-add btn small" title="add item">add item</button></td></tr>'));
+        var num_cols = context.find('thead tr').children().length;
+        var add_button_row = $('<tr><td colspan="'+ num_cols +'"><button class="formset-control-add btn small" title="add item">add item</button></td></tr>');
+        context.find('tbody').append(add_button_row);
         
         var set_add_control_state = function () {
             context.find('.formset-control-add').each(function () {
@@ -132,7 +132,7 @@
         
         context.find('.formset-control-add').click(function () {
             var lastform = context.find('.formset-form:last');
-            clone().hide().insertAfter(lastform).fadeIn();
+            clone(lastform).hide().insertAfter(lastform).fadeIn();
             update_button_states();
             return false;
         });
