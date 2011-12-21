@@ -1,6 +1,22 @@
-Generate twitter-bootstrap form output for django form
+Generate twitter-bootstrap form output for django forms.
 
 A django template tag to work with twitter bootstrap ( http://twitter.github.com/bootstrap/ )
+
+There are three filters available:
+
+bootstrap:
+Outputs a single form object in bootstrap compliant markup.
+
+bootstrapfield:
+Outputs a single field in boostrap compliant markup. There are currently three templates
+that determine how a field is marked up.
+
+bootstrapformset:
+Outputs a formset object into a table with bootstrap compliant markup.
+
+Additionally, there is a javascript document (jQuery 1.7 or higher required) that can be
+imported. Formsets will automatically be converted to include dynamic insertion, removal
+and reordering of formset elements.
 
 Installation:
 Add 'bootstrapform' to INSTALLED_APPS.
@@ -9,3 +25,15 @@ Template usage:
 {% load bootstrap %}
 
 {{ form|bootstrap }}
+
+or
+
+{{ field|bootstrapfield }}
+
+or
+
+{{ formset|bootstrapformset }}
+
+optionally with:
+
+<script type="text/javascript" src="{{ STATIC_URL }}bootstrapform/js/bootstrap.formset.js"></script>
