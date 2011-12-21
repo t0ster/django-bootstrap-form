@@ -83,6 +83,8 @@
 			cell.append(button);
 		});
 		
+		context.find('tbody').append($('<tr><td><button class="formset-control-add btn small" title="add item">+</button></td></tr>'));
+		
 		var set_add_control_state = function () {
 			context.find('.formset-control-add').each(function () {
 				var $this = $(this);
@@ -179,9 +181,9 @@
 					order_field($(this)).val(i);
 				});
 				
-				tbody.append(allforms);
+				tbody.append(allforms).append(context.find('.formset-control-add').parents('tr'));
 				
-				update_button_states();			
+				update_button_states();
 				return false;
 			};
 		}
