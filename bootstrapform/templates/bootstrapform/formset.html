@@ -2,19 +2,18 @@
 <div class="formset">
     {{ formset.management_form }}
     <table>
-        {% for form in formset %}
-        {% if forloop.first %}
         <thead>
             <tr>
+				{% with formset|first as form %}
                 {% for field in form.visible_fields %}
                 <th>
                     {{ field.label|capfirst }}
                 </th>
-                {% endfor %}
+                {% endfor %}{% endwith %}
             </tr>
         </thead>
-        {% endif %}
         <tbody>
+            {% for form in formset %}
             <tr class="formset-form">
                 {% for field in form.visible_fields %}
                 <td class="clearfix {% if field.errors%}error{% endif %}">
@@ -25,14 +24,14 @@
                     {% endif %}
                     {{ field }}
                     {% if field.errors %}
-                        {% for error in field.errors %}
-                            <span class="help-inline">{{ error }}</span>
-                        {% endfor %}
+                    {% for error in field.errors %}
+                    <span class="help-inline">{{ error }}</span>
+                    {% endfor %}
                     {% endif %}
                 </td>
                 {% endfor %}
             </tr>
+            {% endfor %}
         </tbody>
-        {% endfor %}
     </table>
 </div>
