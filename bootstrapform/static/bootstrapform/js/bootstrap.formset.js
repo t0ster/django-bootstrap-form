@@ -66,12 +66,28 @@
             TOTAL_FORMS.val(total);
             return new_element;
         };
+
+        order_field(context).each(function () {
+            var $this = $(this);
+            if ($this.val() == '') {
+                $this.val('10000');
+            }
+        });
+        
+		var comparator = function (a, b) {
+			a = parseInt(order_field($(a)).val());
+			b = parseInt(order_field($(b)).val());
+			return a - b;
+		}
+		
+		var allforms = $.makeArray(forms());
+		context.find('tbody').append(allforms.sort(comparator));
         
         order_field(context).each(function () {
             var $this = $(this).hide();
             var cell = $this.parents('td');
             var buttons = $('<button class="form-control-move-up btn small" title="move up">⬆</button><button class="form-control-move-down btn small" title="move down">⬇</button>');
-            cell.append(buttons);
+            cell.append(buttons).css({'white-space': 'nowrap'});
         });
         
         delete_field(context).each(function () {
@@ -190,14 +206,8 @@
         
         context.on('click', '.form-control-move-up', reorderer(-1));
         context.on('click', '.form-control-move-down', reorderer(1));
-        
-        order_field(context).each(function () {
-            var $this = $(this);
-            if ($this.val() == '') {
-                $this.val('0');
-            }
-        });
-        
+		
+		reorderer(0).apply($(allforms[0]).find('td')[0]);
         update_button_states();
     });
 })( window.jQuery || window.ender );
