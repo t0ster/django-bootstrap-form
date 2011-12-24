@@ -9,25 +9,24 @@
 {% for field in form.visible_fields %}
     <div class="clearfix{% if field.errors %} error{% endif %}">
         {% if field|is_checkbox %}
-            <ul class="inputs-list">
-                <li>
-                    <div class="input">
-                        <label>
-                            {{ field }} <span>{{ field.label }}</span>
-                        </label>
+            {{ field.label_tag }}
+            <div class="input">
+                <ul class="inputs-list">
+                    {% for checkbox in field|checkbox_inputs %}
+                        <li>{{ checkbox }}</li>
+                    {% endfor %}
 
-                        {% for error in field.errors %}
-                            <span class="help-inline">{{ error }}</span>
-                        {% endfor %}
+                    {% for error in field.errors %}
+                        <span class="help-block">{{ error }}</span>
+                    {% endfor %}
 
-                        {% if field.help_text %}
-                        <span class="help-block">
-                            {{ field.help_text }}
-                        </span>
-                        {% endif %}
-                    </div>
-                </li>
-            </ul>
+                    {% if field.help_text %}
+                    <span class="help-block">
+                        {{ field.help_text }}
+                    </span>
+                    {% endif %}
+                </ul>
+            </div>
         {% else %}
             {{ field.label_tag }}
             <div class="input">
@@ -47,4 +46,3 @@
         {% endif %}
     </div>
 {% endfor %}
-
